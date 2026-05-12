@@ -143,9 +143,14 @@ void AMGP_2526Character::CastHeld()
 	bIsAimming = true;
 	UE_LOG(LogMGP_2526, Log, TEXT("Cast Held"));
 }
-
+//fuction for when the cast button is released
 void AMGP_2526Character::CastReleased()
 {
 	bIsAimming = false;
 	UE_LOG(LogMGP_2526, Log, TEXT("Cast Released"));
+	FVector SpawnLocation = GetMesh()->GetChildComponent(0)->GetSocketLocation(TEXT("Release Bobber"));
+	FRotator SpawnRotation = GetActorRotation();
+	GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
+
+
 }	

@@ -30,6 +30,8 @@ class AMGP_2526Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	
 	
 protected:
 
@@ -51,6 +53,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* CastAction;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fishing")
+	TSubclassOf<AActor> BobberClass;
 
 	
 
