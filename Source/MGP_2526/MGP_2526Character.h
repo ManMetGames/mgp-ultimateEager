@@ -58,6 +58,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fishing")
 	TSubclassOf<AActor> BobberClass;
 
+	UPROPERTY()
+	AActor* BobberInstance;
+
 	
 
 public:

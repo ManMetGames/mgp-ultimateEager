@@ -150,7 +150,12 @@ void AMGP_2526Character::CastReleased()
 	UE_LOG(LogMGP_2526, Log, TEXT("Cast Released"));
 	FVector SpawnLocation = GetMesh()->GetChildComponent(0)->GetSocketLocation(TEXT("Release Bobber"));
 	FRotator SpawnRotation = GetActorRotation();
-	GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
+	if (BobberInstance != nullptr)
+	{
+		UE_LOG(LogMGP_2526, Warning, TEXT("Bobber already exists! Destroying old bobber before spawning new one."));
+		BobberInstance->Destroy();
+	}
+	BobberInstance=GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
 
 
 }	
