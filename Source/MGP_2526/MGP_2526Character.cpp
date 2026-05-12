@@ -140,10 +140,12 @@ void AMGP_2526Character::DoJumpEnd()
 //function for when the cast button is held down
 void AMGP_2526Character::CastHeld()
 {
+	bIsAimming = true;
 	UE_LOG(LogMGP_2526, Log, TEXT("Cast Held"));
 }
 
 void AMGP_2526Character::CastReleased()
 {
+	bIsAimming = false;
 	UE_LOG(LogMGP_2526, Log, TEXT("Cast Released"));
 }	

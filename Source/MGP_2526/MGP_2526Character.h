@@ -76,6 +76,8 @@ protected:
 	void CastReleased();
 
 
+
+
 public:
 
 	/** Handles move inputs from either controls or UI interfaces */
@@ -93,6 +95,10 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+	
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Animation")
+	bool bIsAimming = false;
 
 public:
 
