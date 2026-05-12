@@ -65,6 +65,12 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMGP_2526Character::Look);
+
+		// casting
+		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Started, this, &AMGP_2526Character::CastHeld);
+		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Completed, this, &AMGP_2526Character::CastReleased);
+
+
 	}
 	else
 	{
@@ -131,3 +137,13 @@ void AMGP_2526Character::DoJumpEnd()
 	// signal the character to stop jumping
 	StopJumping();
 }
+//function for when the cast button is held down
+void AMGP_2526Character::CastHeld()
+{
+	UE_LOG(LogMGP_2526, Log, TEXT("Cast Held"));
+}
+
+void AMGP_2526Character::CastReleased()
+{
+	UE_LOG(LogMGP_2526, Log, TEXT("Cast Released"));
+}	
