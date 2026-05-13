@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Projectile_Bobber.h"
 #include "MGP_2526.h"
 
 AMGP_2526Character::AMGP_2526Character()
@@ -70,7 +71,7 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Started, this, &AMGP_2526Character::CastHeld);
 		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Completed, this, &AMGP_2526Character::CastReleased);
 
-
+		EnhancedInputComponent->BindAction(ReelAction, ETriggerEvent::Triggered, this, &AMGP_2526Character::Reel);
 	}
 	else
 	{
@@ -155,7 +156,24 @@ void AMGP_2526Character::CastReleased()
 		UE_LOG(LogMGP_2526, Warning, TEXT("Bobber already exists! Destroying old bobber before spawning new one."));
 		BobberInstance->Destroy();
 	}
-	BobberInstance=GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
-
-
+	BobberInstance = GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
+}
+void AMGP_2526Character::Reel()
+{
+	AProjectile_Bobber* Bobber = Cast<AProjectile_Bobber>(BobberInstance);
+	bool CanReel = Bobber && Bobber->CanReelIn;
+	if (BobberInstance)
+	{
+		if (CanReel)
+		{
+			UE_LOG(LogMGP_2526, Log, TEXT("Reeling in Bobber!"));
+			BobberInstance->Destroy();
+			BobberInstance = nullptr;
+		}
+		else
+		{
+			UE_LOG(LogMGP_2526, Warning, TEXT("Bobber cannot be reeled in yet!"));	
+		}
+	
+	}
 }	

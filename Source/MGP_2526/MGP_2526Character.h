@@ -54,6 +54,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* CastAction;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* ReelAction;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fishing")
 	TSubclassOf<AActor> BobberClass;
@@ -84,6 +87,7 @@ protected:
 	void CastHeld();
 	void CastReleased();
 
+	void Reel();
 
 
 

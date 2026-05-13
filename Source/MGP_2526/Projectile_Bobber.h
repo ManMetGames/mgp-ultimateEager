@@ -27,4 +27,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* CollisionSphere;
 
+	UPROPERTY()
+	bool CanReelIn;
+
 };

@@ -25,11 +25,8 @@ void AProjectile_Bobber::BeginPlay()
 
 	if (!CollisionSphere)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Sphere not found on Blueprint!"));
 		return;
 	}
-
-
 }
 
 // Called every frame
@@ -51,15 +48,15 @@ void AProjectile_Bobber::Tick(float DeltaTime)
 		if(Component->GetCollisionObjectType() == ECC_GameTraceChannel2)
 		//everything that happens here is happening when it overlaps with the fishing zone
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Bobber Collision"));
-			Destroy();
+			CanReelIn = true;
 		}
 		else
 		//everything that happens here is happening when it does not overlap with the fishing zone
 		{
-			
+			CanReelIn = false;
 		}
 	}
+
 }
 
 
