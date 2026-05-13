@@ -20,6 +20,16 @@ void AProjectile_Bobber::BeginPlay()
 	ProjectileMovement->InitialSpeed = 1000.f;	
 	ProjectileMovement->MaxSpeed = 1000.f;
 	
+	
+	CollisionSphere = FindComponentByClass<USphereComponent>();
+
+	if (!CollisionSphere)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Sphere not found on Blueprint!"));
+		return;
+	}
+
+
 }
 
 // Called every frame
@@ -27,12 +37,29 @@ void AProjectile_Bobber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!CollisionSphere)
+	{
+		return;
+	}
+
+	TArray<UPrimitiveComponent*> OverlappingComponents;
+
+	CollisionSphere->GetOverlappingComponents(OverlappingComponents);
+
+	for (UPrimitiveComponent* Component : OverlappingComponents)
+	{
+		if(Component->GetCollisionObjectType() == ECC_GameTraceChannel2)
+		//everything that happens here is happening when it overlaps with the fishing zone
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Bobber Collision"));
+			Destroy();
+		}
+		else
+		//everything that happens here is happening when it does not overlap with the fishing zone
+		{
+			
+		}
+	}
 }
 
-// Called to bind functionality to input
-void AProjectile_Bobber::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
 
