@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Projectile_Bobber.h"
 #include "MGP_2526.h"
 
 AMGP_2526Character::AMGP_2526Character()
@@ -65,6 +66,12 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMGP_2526Character::Look);
+
+		// casting
+		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Started, this, &AMGP_2526Character::CastHeld);
+		EnhancedInputComponent->BindAction(CastAction, ETriggerEvent::Completed, this, &AMGP_2526Character::CastReleased);
+
+		EnhancedInputComponent->BindAction(ReelAction, ETriggerEvent::Triggered, this, &AMGP_2526Character::Reel);
 	}
 	else
 	{
@@ -131,3 +138,43 @@ void AMGP_2526Character::DoJumpEnd()
 	// signal the character to stop jumping
 	StopJumping();
 }
+//function for when the cast button is held down
+void AMGP_2526Character::CastHeld()
+{
+	bIsAimming = true;
+	UE_LOG(LogMGP_2526, Log, TEXT("Cast Held"));
+}
+//fuction for when the cast button is released
+void AMGP_2526Character::CastReleased()
+{
+	bIsAimming = false;
+	UE_LOG(LogMGP_2526, Log, TEXT("Cast Released"));
+	FVector SpawnLocation = GetMesh()->GetChildComponent(0)->GetSocketLocation(TEXT("Release Bobber"));
+	FRotator SpawnRotation = GetActorRotation();
+	if (BobberInstance != nullptr)
+	{
+		UE_LOG(LogMGP_2526, Warning, TEXT("Bobber already exists! Destroying old bobber before spawning new one."));
+		BobberInstance->Destroy();
+	}
+	BobberInstance = GetWorld()->SpawnActor<AActor>(BobberClass, SpawnLocation, SpawnRotation);
+}
+void AMGP_2526Character::Reel()
+{
+	AProjectile_Bobber* Bobber = Cast<AProjectile_Bobber>(BobberInstance);
+	bool CanReel = Bobber && Bobber->CanReelIn;
+	if (BobberInstance)
+	{
+		if (CanReel)
+		{
+			UE_LOG(LogMGP_2526, Log, TEXT("Reeling in Bobber!"));
+			BobberInstance->Destroy();
+			BobberInstance = nullptr;
+			UE_LOG(LogMGP_2526, Log, TEXT("You caught a fish!"));
+		}
+		else
+		{
+			UE_LOG(LogMGP_2526, Warning, TEXT("Bobber cannot be reeled in yet!"));	
+		}
+	
+	}
+}	

@@ -30,6 +30,8 @@ class AMGP_2526Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	
 	
 protected:
 
@@ -49,6 +51,21 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* CastAction;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* ReelAction;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fishing")
+	TSubclassOf<AActor> BobberClass;
+
+	UPROPERTY()
+	AActor* BobberInstance;
+
+	
+
 public:
 
 	/** Constructor */
@@ -67,6 +84,13 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	void CastHeld();
+	void CastReleased();
+
+	void Reel();
+
+
+
 public:
 
 	/** Handles move inputs from either controls or UI interfaces */
@@ -84,6 +108,10 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+	
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Animation")
+	bool bIsAimming = false;
 
 public:
 
