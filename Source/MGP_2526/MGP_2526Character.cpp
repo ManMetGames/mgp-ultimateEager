@@ -169,6 +169,7 @@ void AMGP_2526Character::Reel()
 			UE_LOG(LogMGP_2526, Log, TEXT("Reeling in Bobber!"));
 			BobberInstance->Destroy();
 			BobberInstance = nullptr;
+			UE_LOG(LogMGP_2526, Log, TEXT("You caught a fish!"));
 		}
 		else
 		{
